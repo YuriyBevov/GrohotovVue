@@ -1,0 +1,15 @@
+.cmn {
+   &__wrapper {
+      @include container();
+
+      outline: 1px solid black;
+   }
+   
+   &__title {
+      font-family: $font_bold;
+      font-size: 4.4rem;
+      line-height: 5.3rem;
+
+      color: $col_black;
+   }
+}   

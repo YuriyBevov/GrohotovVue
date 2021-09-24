@@ -1,22 +1,21 @@
 <template>
   <div id="app">
-
+    <MainLayout/>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'App',
-}
+  import MainLayout from '@/layouts/MainLayout.vue'
+  
+  export default {
+    name: 'App',
+
+    components: {
+      MainLayout
+    }
+  }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  @import '@/assets/styles/index.scss';
 </style>

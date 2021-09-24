@@ -24,7 +24,7 @@
             return {
                 watchedProductList: [
                     {
-                        url: 'product-item_1-big.png',
+                        img: 'product-item_1-big.png',
                         title: 'BXC',
                         desc: 'Вытяжное устройство для механической системы вентиляции',
                         priceFromRU: '6 848',
@@ -34,7 +34,7 @@
                     },
 
                     {
-                        url: '../assets/images/product-item_2-big.png',
+                        img: 'product-item_2-big.png',
                         title: 'G2H',
                         desc: 'Многофункциональное вытяжное устройство для естественной и гибридной вентиляции',
                         priceFromRU: '6 848',
@@ -44,7 +44,7 @@
                     },
 
                     {
-                        url: '~@/assets/images/product-item_1-big.png',
+                        img: 'product-item_3-big.png',
                         title: 'GHN',
                         desc: 'Вытяжное устройство с датчиком присутствия',
                         priceFromRU: '6 848',
@@ -54,7 +54,7 @@
                     },
 
                     {
-                        url: '@/assets/images/product-item_1-big.png',
+                        img: 'product-item_4-big.png',
                         title: 'TDA',
                         desc: 'Вытяжное устройство с датчиком присутствия',
                         priceFromRU: '6 848',
@@ -64,7 +64,7 @@
                     },
 
                     {
-                        url: '../assets/images/product-item_2-big.png',
+                        img: 'product-item_2-big.png',
                         title: 'G2H',
                         desc: 'Многофункциональное вытяжное устройство для естественной и гибридной вентиляции',
                         priceFromRU: '6 848',
@@ -74,7 +74,7 @@
                     },
 
                     {
-                        url: '../assets/images/product-item_1-big.png',
+                        img: 'product-item_1-big.png',
                         title: 'TDA',
                         desc: 'Вытяжное устройство с датчиком присутствия',
                         priceFromRU: '6 848',
@@ -84,7 +84,7 @@
                     },
 
                     {
-                        url: '../assets/images/product-item_1-big.png',
+                        img: 'product-item_1-big.png',
                         title: 'BXC',
                         desc: 'Вытяжное устройство для механической системы вентиляции',
                         priceFromRU: '6 848',

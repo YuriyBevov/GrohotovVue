@@ -1,49 +1,51 @@
 <template>
     <div class="slider">
-        <ul class="slider__list">
-            <li 
-                class="slider__item"
-                v-for="(slide, i) of this.$props.slideList"
-                :key="'slide_' + i"
+        <div class="custom-slider-container">
+            <ul class="custom-slider-wrapper">
+                <li 
+                    class="slider__item custom-slide"
+                    v-for="(slide, i) of this.$props.slideList"
+                    :key="'slide_' + i"
+                >
+                    <img  :src=getImgUrl(slide.img) :alt=slide.title width="245" height="245">
+                    
+                    <h3 class="slider__item-title">{{slide.title}}</h3>
 
-                :class="i === 0 ? 'active' : null"
-            >
-                <img  src="" :alt=slide.title width="245" height="245">
+                    <p class="slider__item-desc">{{slide.desc}}</p>
+
+                    <div class="slider__item-price-ru">
+                        <span>{{slide.priceFromRU}}</span>
+                        <span>–</span>
+                        <span>{{slide.priceToRU}} ₽</span>
+                    </div>
+
+                    <div class="slider__item-price-eu">
+                        <span>{{slide.priceFromEU}} €</span>
+                        <span>–</span>
+                        <span>{{slide.priceToEU}} €</span>
+                    </div>
+
+                    <router-link to="#" class="slider__item-more">Подробнее</router-link>
+                </li>
+            </ul>
+            <div class="slider__navigation">
+                <button class="slider__btn slider__btn--prev" @click="onClickSlideBack" />
+    
+                <div class="slider__amount">
+                    <span class="slider__amount-current">{{this.currentSlide}} - {{this.currentSlide + (slidesPerView - 1)}}</span>
+                    <span class="slider__amount-total"> / {{this.$props.slideList.length}}</span>
+                </div>
                 
-                <h3 class="slider__item-title">{{slide.title}}</h3>
-
-                <p class="slider__item-desc">{{slide.desc}}</p>
-
-                <div class="slider__item-price-ru">
-                    <span>{{slide.priceFromRU}}</span>
-                    <span>–</span>
-                    <span>{{slide.priceToRU}} ₽</span>
-                </div>
-
-                <div class="slider__item-price-eu">
-                    <span>{{slide.priceFromEU}} €</span>
-                    <span>–</span>
-                    <span>{{slide.priceToEU}} €</span>
-                </div>
-
-                <router-link to="#" class="slider__item-more">Подробнее</router-link>
-            </li>
-        </ul>
-
-        <div class="slider__navigation">
-            <button class="slider__btn slider__btn--prev" @click="onClickSlideBack" />
-
-            <div class="slider__amount">
-                <span class="slider__amount-current">{{this.currentSlide}}</span>
-                <span class="slider__amount-total"> / {{this.$props.slideList.length}}</span>
+                <button class="slider__btn slider__btn--next" @click="onClickSlideForward"/>
             </div>
-            
-            <button class="slider__btn slider__btn--next" @click="onClickSlideForward"/>
         </div>
+
+
     </div>
 </template>
 
 <script>
+    import { SuperSlider } from '../plugins/SuperSlider';
     export default {
         name: "Slider",
 
@@ -54,37 +56,36 @@
         data() {
             return {
                 currentSlide: 1,
+                slidesPerView: 4
             }
         },
 
         methods: {
             onClickSlideBack() {
-                this.currentSlide === 1 ?
-                this.currentSlide = this.$props.slideList.length : this.currentSlide -= 1
-
-                const slideList = document.querySelectorAll('.slider__item');
-
-                slideList.forEach((slide, i) => {
-                    slide.classList.contains('active') ?
-                    slide.classList.remove('active') : null
-                })
-
-                slideList[this.currentSlide - 1].classList.add('active');
+                this.currentSlide !== 1 ?
+                this.currentSlide -= 1 : null
             },
 
             onClickSlideForward() {
-                this.currentSlide === this.$props.slideList.length ?
-                this.currentSlide = 1 : this.currentSlide += 1
+                this.currentSlide !== this.$props.slideList.length - this.slidesPerView + 1 ?
+                this.currentSlide += 1 : null
+            },
 
-                const slideList = document.querySelectorAll('.slider__item');
-
-                slideList.forEach((slide, i) => {
-                    slide.classList.contains('active') ?
-                    slide.classList.remove('active') : null
-                })
-
-                slideList[this.currentSlide - 1].classList.add('active');
+            getImgUrl(img) {
+                return require('@/assets/images/' + img)
             }
+        },
+
+        mounted() {
+            new SuperSlider('.custom-slider-container', {
+                slidesPerView: this.slidesPerView,
+                spaceBetween: 20,
+
+                navigation: {
+                    prevBtn: '.slider__btn--prev',
+                    nextBtn: '.slider__btn--next'
+                }
+            }).init()
         }
     }
 </script>
@@ -98,23 +99,13 @@
     .slider {
         position: relative;
 
-        &__list {
-            display: flex;
-            flex-wrap: nowrap;
-
-            overflow: hidden;
-            outline: 1px solid red;
-        }
-
         &__item {
             display: flex;
             flex-direction: column;
             padding: 2.5rem;
-            width: 30.5rem;
-            min-width: 30.5rem;
+            //min-width: 30.5rem !important;
             border-radius: 5px;
             background: $col_slide-bg;
-            margin-right: 2rem;  
 
             img{
                 margin-bottom: 0.5rem;
@@ -210,18 +201,23 @@
             background-repeat: no-repeat;
             background-position: center;
 
+            &.disabled {
+                cursor: initial;
+                opacity: 0.5;
+            }
+
             &--prev {
                 transform: rotate(180deg);
             }
 
             transition: opacity $tr_rules;
 
-            &:hover,
-            &:focus {
+            &:not(.disabled):hover,
+            &:not(.disabled):focus {
                 opacity: 0.8;
             }
 
-            &:active {
+            &:not(.disabled):active {
                 opacity: 0.9;
             }
         }

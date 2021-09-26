@@ -8,11 +8,14 @@
             <span class="product-card__article">Артикул: {{this.$props.article}}</span>
         </div>
 
-        <div class="product-card__counter">
-            <button @click="onClickDecQuantity" :disabled="this.$props.quantity === 1 ? true : false"/>
-            <span>{{this.$props.quantity}}</span>
-            <button @click="onClickIncQuantity"/>
-        </div>
+        <div class="product-card__price">   
+            <div class="product-card__counter">
+                <button @click="onClickDecQuantity" :disabled="this.$props.quantity === 1 ? true : false"/>
+                <span>{{this.$props.quantity}}</span>
+                <button @click="onClickIncQuantity"/>
+            </div>
+            <span v-if="this.$props.quantity > 1">{{this.setPrice(this.$props.price)}} ₽/шт. </span>
+        </div> 
 
         <span class="product-card__total">
             {{this.setPrice(this.$props.price * this.$props.quantity) }} ₽
@@ -109,6 +112,8 @@
             margin-right: auto;
         }
 
+
+
         &__title {
             font-family: $font_semi;
             font-size: 1.6rem;
@@ -137,11 +142,27 @@
             color: $col_lightgray;
         }
 
+        &__price {
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+
+           span {
+                font-family: $font-sec_reg;
+                font-size: 1.2rem;
+                line-height: 1.7rem;
+
+                color: $col_black;
+           }
+        }
+
         &__counter {
             display: flex;
 
             width: 10.2rem;
             height: 3.4rem;
+
+            margin-bottom: 0.8rem;
 
             border-radius: 4px;
             background: #F6F8FA;

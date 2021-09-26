@@ -11,7 +11,7 @@ module.exports = {
     pages: {
         index: {
             entry: 'src/main.js',
-            template: 'public/index.html
+            template: 'public/index.html'
         },
         
         cart: {

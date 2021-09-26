@@ -78,6 +78,8 @@
         }
 
         &__field {
+            display: flex;
+            justify-content: space-between;
             margin-bottom: 1.7rem;
 
             &:last-child {

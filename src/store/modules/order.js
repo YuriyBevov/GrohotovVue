@@ -1,38 +1,35 @@
-//import { axiosInstance } from 'src/boot/axios'
-
-const state = {
-    
-}
-
-const mutations = {
-
-}
+import { axiosInstance } from '@/boot/axios'
 
 const actions = {
-    GET_ORDER({commit,rootState, rootGetters}) {
-      let order = {}
-      order.products = []
-      order.isMountRequestActive = false
+    GET_ORDER({ dispatch, rootState }) {
+      let order = [{
+        items: rootState.cart.cart,
+        isMountRequestActive: rootState.cart.isMountRequestActive 
+      }]
 
-      rootGetters['cart/cartProducts'].forEach(item => {
-        order.items.push({
-          id:item.id,
-          quantity: item.quantity
-        })
+      dispatch('loader/CHANGE_LOADER_STATUS', true, {root: true})
+
+      axiosInstance.post('/products', order)
+      .then(resp => {
+        dispatch('modal/CHANGE_STATUS_MODAL', {
+          message: 'Ваш заказ успешно оформлен !',
+          isModalOpened: true
+        }, {root: true})
+
       })
-
-      order.isMountRequestActive = rootState.cart.isMountRequestActive
+      .catch(err => {
+        dispatch('modal/CHANGE_STATUS_MODAL', {
+          message: 'Произошла ошибка... Попробуйте снова !',
+          isModalOpened: true
+        }, {root: true})
+      })
+      .finally(() => {
+        dispatch('loader/CHANGE_LOADER_STATUS', false, {root: true})
+      })
     }
-}
-
-const getters = {
-    
 }
 
 export default {
   namespaced: true,
-  state,
-  mutations,
-  actions,
-  getters
+  actions
 }

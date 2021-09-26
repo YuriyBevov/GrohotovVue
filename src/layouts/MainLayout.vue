@@ -2,6 +2,7 @@
     <div class="main-container cmn">
         <Header/>
         <Main/>
+        <InformationModal/>
     </div>
 </template>
 
@@ -10,13 +11,15 @@
 
     import Header from '@/components/Header.vue'
     import Main from '@/components/Main.vue'
+    import InformationModal from '@/components/InformationModal'
 
     export default {
         name: 'MainLayout',
         
         components: {
             Header,
-            Main
+            Main,
+            InformationModal
         },
 
         methods: {

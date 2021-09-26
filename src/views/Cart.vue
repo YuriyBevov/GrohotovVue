@@ -62,7 +62,6 @@
     import ProductCard from '@/components/ProductCard'
     import CartOrder from '@/components/CartOrder'
     import WatchedHistory from '@/components/WatchedHistory'
-
     import { getQuantityString } from '@/functions/getQuantityString.js'
 
     export default {
@@ -99,10 +98,6 @@
         computed: {
             ...mapGetters('cart', ['cartProducts', 'cartTotalQuantity', 'cartTotalPrice']),
             ...mapGetters('catalog', ['watchedList'])
-        },
-
-        mounted() {
-            console.log(this.$route)
         }
     }
 </script>

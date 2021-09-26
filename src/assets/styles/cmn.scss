@@ -10,4 +10,97 @@
 
       color: $col_black;
    }
+
+   &__modal {
+      width: 100%;
+      min-height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 10;
+   
+      &-wrapper {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         position: absolute;
+         padding: 2rem;
+         top: 50%;
+         left: 50%;
+         overflow-y: auto;
+   
+         width: fit-content;
+         max-width: 80vw;
+         height: fit-content;
+         max-height: 80vh;
+         background-color: $col_white;
+         transform: translate(-50%, -50%);
+   
+         animation: showModal 0.7s forwards;
+      }
+
+      &-btn {
+         width: 100%;
+         font-family: $font_semi;
+         font-size: 1.8rem;
+         line-height: 2.6rem;
+
+         padding: 1.4rem;
+
+         &:not(:last-child) {
+             margin-bottom: 1.2rem;
+         }
+
+         border: 1px solid transparent;
+         color: $col_white;
+         background-color: $col_blue;
+         border-radius: 4px;
+
+         transition: opacity $tr_rules, border $tr_rules, color $tr_rules, background-color $tr_rules;
+
+         &:not(&--bordered):hover,
+         &:not(&--bordered):focus {
+             opacity: 0.8;
+         }
+
+         &:not(&--bordered):active {
+             opacity: 0.9;
+         }
+
+         &--bordered {
+             border: 1px solid $col_blue;
+
+             color: $col_blue;
+             background-color: transparent;
+
+             &:hover,
+             &:focus {
+                 border: 1px solid transparent;
+                 color: $col_white;
+                 background-color: $col_blue;
+             }
+
+             &:active {
+                 opacity: 0.9;
+             }
+         }
+      }
+   
+      span {
+            font-size: 2.2rem;
+            line-height: 2.4rem;
+            margin-bottom: 2rem;
+      }
+   
+      @keyframes showModal {
+            0% {
+               transform: translate(0%, -50%) ;
+            }
+            
+            100% {
+               transform: translate(-50%, -50%);
+            }
+      }
+   }
 }   

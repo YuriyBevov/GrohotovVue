@@ -1,0 +1,125 @@
+<template>
+    <div class="loader" v-if="isAppLoading">
+        <div class="loader__wrapper">
+            <div class="lds-ellipsis">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import { mapGetters } from 'vuex'
+
+    export default {
+
+        computed: {
+            ...mapGetters('loader', ['isAppLoading'])
+        },
+
+        /*methods: {
+            ...methods('loader', ['CHANGE_LOADER_STATUS'])
+        },
+
+        mounted() {
+            this.CHANGE_LOADER_STATUS(false)
+        }*/
+    }
+</script>
+
+<style lang="scss">
+    $col_white: #ffffff;
+
+    .loader {
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+    
+        z-index: 1000;
+        transition: 1.2s;
+    
+        &__wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+  
+  .lds-ellipsis {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        width: 80px;
+        height: 80px;
+  }
+  
+  .lds-ellipsis div {
+        position: absolute;
+        top: 33px;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: $col_white;
+        animation-timing-function: cubic-bezier(0, 1, 1, 0);
+  }
+  
+  .lds-ellipsis div:nth-child(1) {
+        left: 8px;
+        animation: lds-ellipsis1 0.6s infinite;
+  }
+  
+  .lds-ellipsis div:nth-child(2) {
+        left: 8px;
+        animation: lds-ellipsis2 0.6s infinite;
+  }
+  
+  .lds-ellipsis div:nth-child(3) {
+        left: 32px;
+        animation: lds-ellipsis2 0.6s infinite;
+  }
+  
+  .lds-ellipsis div:nth-child(4) {
+        left: 56px;
+        animation: lds-ellipsis3 0.6s infinite;
+  }
+  
+  @keyframes lds-ellipsis1 {
+    0% {
+        transform: scale(0);
+    }
+  
+    100% {
+        transform: scale(1);
+    }
+  }
+  
+  @keyframes lds-ellipsis3 {
+    0% {
+        transform: scale(1);
+    }
+  
+    100% {
+        transform: scale(0);
+    }
+  }
+  
+  @keyframes lds-ellipsis2 {
+    0% {
+        transform: translate(0, 0);
+    }
+  
+    100% {
+        transform: translate(24px, 0);
+    }
+  }
+</style>

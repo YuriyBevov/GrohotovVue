@@ -2,7 +2,7 @@
   <section class="preview">
     <div class="cmn__wrapper">
       <h1 class="cmn__title">Это главная страница сайта, но тут ничего нет...</h1>
-      <p>Она нужна для демонстрации vue-router'а :)</p>
+      <p>Она нужна для демонстрации vue-router'а и хлебных крошек :)</p>
       <router-link to="/cart" class="preview__link">Перейти в корзину ?</router-link>
     </div>
   </section>

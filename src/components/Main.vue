@@ -1,6 +1,6 @@
 <template>
     <main>
-        <Breadcrumbs v-if="this.$route.path === '/cart'"/>
+        <Breadcrumbs/>
         <router-view/>
     </main>
 </template>

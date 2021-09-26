@@ -4,32 +4,54 @@
 
         <div class="order__field">
             <h3 class="order__field-title">Сумма заказа</h3>
-            <span class="order__field-value">50 576 ₽</span>
+            <span class="order__field-value">{{this.setPrice(this.$props.totalPrice)}} ₽</span>
         </div>
 
         <div class="order__field">
             <h3 class="order__field-title">Количество</h3>
-            <span class="order__field-value">4 шт</span>
+            <span class="order__field-value">{{totalQuantity}} шт</span>
         </div>
 
         <div class="order__field">
             <h3 class="order__field-title">Установка</h3>
-            <span class="order__field-value">Нет</span>
+            <span class="order__field-value">{{!!mountRequestStatus ? 'Да' : 'Нет'}}</span>
         </div>
 
         <div class="order__price">
             <h3 class="order__price-title">Стоимость товаров</h3>
-            <span class="order__price-value">50 576 ₽</span>
+            <span class="order__price-value">{{this.setPrice(this.$props.totalPrice)}} ₽</span>
         </div>
 
-        <button class="order__btn">Оформить заказ</button>
+        <button class="order__btn" @click="getOrder">Оформить заказ</button>
         <button class="order__btn order__btn--bordered">Купить в 1 клик</button>
     </div>
 </template>
 
 <script>
+    import { mapActions } from 'vuex'
+    import { priceFormatter } from '@/functions/priceFormatter.js'
+
     export default {
         name: 'Order',
+
+        props: {
+            totalQuantity:      { type: Number },
+            totalPrice:         { type: Number },
+            cartItems:          { type: Array},
+            mountRequestStatus: { type: Boolean}
+        },
+
+        methods: {
+            ...mapActions('order', ['GET_ORDER']),
+
+            setPrice(price) {
+                return priceFormatter(price)
+            },
+
+            getOrder() {
+                this.GET_ORDER()
+            }
+        }
     }
 </script>
 
@@ -46,6 +68,7 @@
         background-color: $col_bg;
 
         &__title {
+            display: block;
             font-family: $font_semi;
             font-size: 2.4rem;
             line-height: 2.9rem;

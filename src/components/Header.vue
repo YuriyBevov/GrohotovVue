@@ -1,13 +1,17 @@
 <template>
     <header class="header">
         <div class="cmn__wrapper header__wrapper">
-            <MiniCart/>
+            <MiniCart
+              :totalPrice=cartTotalPrice
+              :quantity=cartProducts.length
+            />
         </div>
     </header>
 </template>
 
 <script>
     import MiniCart from '@/components/MiniCart'
+    import {mapGetters, mapActions} from 'vuex'
 
     export default {
         name: 'Header',
@@ -20,6 +24,22 @@
             return {
                 
             }
+        },
+
+        computed: {
+            ...mapGetters('cart', ['cartProducts', 'cartTotalPrice', 'cartTotalQuantity']),
+        },
+
+        methods: {
+            ...mapActions('cart', ['INIT_MOCK_CART']),
+
+            initMiniCart() {
+                this.INIT_MOCK_CART();
+            }
+        },
+
+        created() {
+            this.initMiniCart()
         }
     }
 </script>

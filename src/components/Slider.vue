@@ -7,22 +7,22 @@
                     v-for="(slide, i) of this.$props.slideList"
                     :key="'slide_' + i"
                 >
-                    <img  :src=getImgUrl(slide.img) :alt=slide.title width="245" height="245">
+                    <img  :src=setImgUrl(slide.img) :alt=slide.title width="245" height="245">
                     
                     <h3 class="slider__item-title">{{slide.title}}</h3>
 
                     <p class="slider__item-desc">{{slide.desc}}</p>
 
                     <div class="slider__item-price-ru">
-                        <span>{{slide.priceFromRU}}</span>
+                        <span>{{slide.priceFrom}}</span>
                         <span>–</span>
-                        <span>{{slide.priceToRU}} ₽</span>
+                        <span>{{slide.priceTo}} ₽</span>
                     </div>
 
                     <div class="slider__item-price-eu">
-                        <span>{{slide.priceFromEU}} €</span>
+                        <span>{{setCurrency(slide.priceFrom)}} €</span>
                         <span>–</span>
-                        <span>{{slide.priceToEU}} €</span>
+                        <span>{{setCurrency(slide.priceTo)}} €</span>
                     </div>
 
                     <router-link to="#" class="slider__item-more">Подробнее</router-link>
@@ -39,13 +39,14 @@
                 <button class="slider__btn slider__btn--next" @click="onClickSlideForward"/>
             </div>
         </div>
-
-
     </div>
 </template>
 
 <script>
     import { SuperSlider } from '../plugins/SuperSlider';
+    import { getImgUrl } from '../functions/getImgUrl';
+    import { getCurrency } from '../functions/getCurrency';
+    
     export default {
         name: "Slider",
 
@@ -71,8 +72,12 @@
                 this.currentSlide += 1 : null
             },
 
-            getImgUrl(img) {
-                return require('@/assets/images/' + img)
+            setImgUrl(img) {
+                return getImgUrl(img)
+            },
+
+            setCurrency(rub) {
+                return getCurrency(rub)
             }
         },
 

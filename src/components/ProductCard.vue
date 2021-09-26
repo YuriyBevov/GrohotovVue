@@ -1,42 +1,80 @@
 <template>
-    <li class="product-card">
-        <img src="~@/assets/images/product-item_1.png" alt="Карточка товара мини" width="100" height="100">
+    <div class="product-card">
+        <img :src=setImgUrl(this.$props.img) :alt=this.$props.title width="100" height="100">
 
         <div class="product-card__content">
-            <h3 class="product-card__title">Вытяжное устройство G2H</h3>
-            <p class="product-card__desc">12-72/168 м3/ч / гидрорегулируемый расход / от датчика присутствия</p>
-            <span class="product-card__article">Артикул: G2H1065</span>
+            <h3 class="product-card__title">{{this.$props.title}}</h3>
+            <span class="product-card__chars" >{{this.concatenateStrings(this.$props.chars)}}</span>
+            <span class="product-card__article">Артикул: {{this.$props.article}}</span>
         </div>
 
         <div class="product-card__counter">
-            <button @click="onClickDecCount"/>
-            <span>1</span>
-            <button @click="onClickIncCount"/>
+            <button @click="onClickDecQuantity" :disabled="this.$props.quantity === 1 ? true : false"/>
+            <span>{{this.$props.quantity}}</span>
+            <button @click="onClickIncQuantity"/>
         </div>
 
         <span class="product-card__total">
-            12 644 ₽
+            {{this.setPrice(this.$props.price * this.$props.quantity) }} ₽
         </span>
 
         <button class="product-card__remove" @click="onClickRemoveItem"/>
-    </li>
+    </div>
 </template>
 
 <script>
+    import { mapActions, mapGetters } from 'vuex'
+    import { priceFormatter } from '@/functions/priceFormatter.js'
+    import { getImgUrl } from '@/functions/getImgUrl.js'
+
     export default {
         name: "ProductCard",
 
+        props: { 
+            id:       { type: String },
+            img:      { type: String },
+            title:    { type: String },
+            chars:    { type: Array },
+            price:    { type: Number },
+            article:  { type: String },
+            quantity: { type: Number }
+        },
+
+        data() {
+            return {
+                productQuantity: ''
+            }
+        },
+
+        computed: {
+            ...mapGetters('cart', ['cart'])
+        },
+
         methods: {
-            onClickIncCount() {
-                console.log('inc')
+            ...mapActions('cart', ['DELETE_PRODUCT_FROM_CART', 'ADD_PRODUCT_TO_CART', 'REMOVE_PRODUCT_FROM_CART']),
+
+            concatenateStrings(arr) {
+                return arr.join(' / ' )
             },
 
-            onClickDecCount() {
-                console.log('dec')
+            onClickIncQuantity() {
+                this.ADD_PRODUCT_TO_CART(this.$props.id)
+            },
+
+            onClickDecQuantity() {
+                this.REMOVE_PRODUCT_FROM_CART(this.$props.id)
             },
 
             onClickRemoveItem() {
-                console.log('remove')
+                this.DELETE_PRODUCT_FROM_CART(this.$props.id)
+            },
+
+            setImgUrl(img) {
+                return getImgUrl(img)
+            },
+
+            setPrice(price) {
+                return priceFormatter(price)
             }
         }
     }
@@ -66,7 +104,7 @@
         }
 
         &__content {
-            max-width: 28rem;
+            max-width: 28.5rem;
             padding: 0 1rem;
             margin-right: auto;
         }
@@ -81,7 +119,8 @@
             color: $col_black;
         }
 
-        &__desc {
+        &__chars {
+            display: block;
             font-size: 1.2rem;
             line-height: 1.8rem;
 
@@ -91,6 +130,7 @@
         }
 
         &__article {
+            display: block;
             font-size: 1.4rem;
             line-height: 2.1rem;
 
@@ -133,13 +173,18 @@
                     background-image: url("~@/assets/icons/icon-plus.svg");
                 }
 
-                &:hover,
-                &:focus {
+                &:not(:disabled):hover,
+                &:not(:disabled):focus {
                     opacity: 0.8;
                 }
 
-                &:active {
+                &:not(:disabled):active {
                     opacity: 0.9;
+                }
+
+                &:disabled {
+                    cursor: initial;
+                    opacity: 0.5;
                 }
             }
 
@@ -163,9 +208,10 @@
             font-family: $font-sec_med;
             font-size: 1.8rem;
             line-height: 2.6rem;
-            
+            text-align: right;
+
+            width: 12rem;
             padding-left: 1rem;
-            margin-left: auto;
 
             color: $col_black;
         }

@@ -1,21 +1,33 @@
 <template>
     <section class="cart">
         <div class="cmn__wrapper cart__wrapper">
-            <div class="cart__main">
+            <div class="cart__main" v-if="cartProducts.length">
                 <div class="cart__header">
                     <h2 class="cmn__title cart__content-title">Ваша корзина</h2>
-                    <span class="cart__content-count">4 товара</span>
-                    <button class="cart__content-clean">Очистить корзину</button>
+                    <span class="cart__content-count">{{this.setQuantity(cartProducts.length)}}</span>
+                    <button class="cart__content-clean" @click="clearCart">Очистить корзину</button>
                 </div>
                 <div class="cart__content">
-                    
-                    <!-- будет список -->
                     <ul>
-                        <ProductCard/>
+                        <li 
+                            v-for="(product, i) of cartProducts"
+                            :key="'product_' + i"
+                        >
+                            <ProductCard
+                                :id="product.id"
+                                :img="product.img"
+                                :title="product.title"
+                                :chars="product.chars"
+                                :price="product.price"
+                                :article="product.article"
+                                :quantity="product.quantity"
+                                
+                            />
+                        </li>
                     </ul>
 
-                    <div class="cart__content-footer">
-                        <input type="checkbox" id="mount_request">
+                    <div class="cart__content-footer" v-if="cartProducts.length">
+                        <input type="checkbox" id="mount_request" v-model="mountRequestStatus" @change="onChangeMountRequestHandler">
                         <label for="mount_request">
                             <span>Установка</span>
                             <p>Отметьте, если Вам необходима консультация профессионала по монтажу выбранных товаров.</p>
@@ -23,21 +35,35 @@
                     </div>
                 </div>
                 <div class="cart__total">
-                    <CartOrder/>
+                    <CartOrder
+                        :totalQuantity="cartTotalQuantity"
+                        :totalPrice="cartTotalPrice"
+                        :cartItems="cartProducts"
+                        :mountRequestStatus="this.mountRequestStatus"
+                    />
                 </div>
             </div>
 
+            <div class="cart__main--empty" v-else>
+                <h2 class="cmn__title cart__content-title">Корзина пока пуста...</h2>
+            </div>
+
             <div class="cart__footer">
-                <WatchedHistory/>
+                <WatchedHistory
+                    :products="watchedList"
+                />
             </div>
         </div>
     </section>
 </template>
 
 <script>
+    import { mapGetters, mapActions } from 'vuex'
     import ProductCard from '@/components/ProductCard'
     import CartOrder from '@/components/CartOrder'
     import WatchedHistory from '@/components/WatchedHistory'
+
+    import { getQuantityString } from '@/functions/getQuantityString.js'
 
     export default {
         name: "Cart",
@@ -46,6 +72,37 @@
             ProductCard,
             CartOrder,
             WatchedHistory
+        },
+
+        data() {
+            return {
+                mountRequestStatus: false
+            }
+        },
+
+        methods: {
+            ...mapActions('cart', ['CHANGE_MOUNT_REQUEST_STATUS', 'CLEAR_CART']),
+
+            setQuantity(quantity) {
+                return getQuantityString(quantity)
+            },
+
+            onChangeMountRequestHandler() {
+                this.CHANGE_MOUNT_REQUEST_STATUS(this.mountRequestStatus)
+            },
+
+            clearCart() {
+                this.CLEAR_CART()
+            }
+        },
+
+        computed: {
+            ...mapGetters('cart', ['cartProducts', 'cartTotalQuantity', 'cartTotalPrice']),
+            ...mapGetters('catalog', ['watchedList'])
+        },
+
+        mounted() {
+            console.log(this.$route)
         }
     }
 </script>
@@ -60,6 +117,13 @@
             display: flex;
             flex-wrap: wrap;
             margin-bottom: 9.5rem;
+
+            &--empty {
+                h2 {
+                    margin-bottom: 5rem;
+                }
+            }
+
         }
 
         &__header {

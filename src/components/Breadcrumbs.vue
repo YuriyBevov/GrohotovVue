@@ -1,8 +1,8 @@
 <template>
     <div class="breadcrumbs">
         <div class="cmn__wrapper">
-            <a href="#" class="breadcrumbs__link">Главная</a>
-            <a href="#" class="breadcrumbs__link disabled">Корзина</a>
+            <router-link to="/" class="breadcrumbs__link">Главная</router-link>
+            <span class="breadcrumbs__link disabled">Корзина</span>
         </div>
     </div>
 </template>

@@ -6,6 +6,8 @@
 </template>
 
 <script>
+    import { mapGetters, mapActions } from 'vuex'
+
     import Header from '@/components/Header.vue'
     import Main from '@/components/Main.vue'
 
@@ -15,6 +17,22 @@
         components: {
             Header,
             Main
+        },
+
+        methods: {
+            ...mapActions('catalog', ['GET_PRODUCT_LIST']),
+
+            initCatalog() {
+                this.GET_PRODUCT_LIST()
+            }
+        },
+
+        computed: {
+            ...mapGetters('catalog', ['productList'])
+        },
+
+        created() {
+            this.initCatalog()
         }
     }
 </script>

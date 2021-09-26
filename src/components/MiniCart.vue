@@ -1,18 +1,40 @@
 <template>
-    <div class="minicart">
-        <h3 class="minicart__title">
-            Ваша корзина
+    <router-link to="/cart" class="minicart">
+        <h3 class="minicart__title" >
+           {{this.$props.quantity > 0 ? 'Ваша корзина' : 'Ваша корзина пуста' }} 
         </h3>
 
-        <span class="minicart__value">
-            3 товара
+        <span class="minicart__value" v-if="this.$props.quantity > 0">
+            {{this.setQuantity(this.$props.quantity)}}
         </span>
 
-        <span class="minicart__price">
-            50 576 ₽
+        <span class="minicart__price" v-if="this.$props.quantity > 0">
+            {{this.setPrice(this.$props.totalPrice)}} ₽
         </span>
-    </div>
+    </router-link>
 </template>
+
+<script>
+    import { getQuantityString } from '@/functions/getQuantityString.js'
+    import { priceFormatter } from '@/functions/priceFormatter.js'
+
+    export default {
+        props: {
+            totalPrice: { type: Number },
+            quantity: { type: Number },
+        },
+
+        methods: {
+            setQuantity(quantity) {
+                return getQuantityString(quantity)
+            },
+
+            setPrice(price) {
+                return priceFormatter(price)
+            }
+        }
+    }
+</script>
 
 <style lang="scss">
     $col_lightblack: #1F2432;

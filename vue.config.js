@@ -1,5 +1,5 @@
 module.exports = {
     publicPath: process.env.NODE_ENV === 'production'
-      ? '/GrohotovVue/dist/'
+      ? 'https://yuriybevov.github.io/GrohotovVue/dist/'
       : '/'
   }
